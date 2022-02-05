@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PE.DependentAPIService", "PE.DependentAPIService\PE.DependentAPIService.csproj", "{CECEA909-9192-4A29-8FE2-826518F74F31}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CECEA909-9192-4A29-8FE2-826518F74F31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CECEA909-9192-4A29-8FE2-826518F74F31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CECEA909-9192-4A29-8FE2-826518F74F31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CECEA909-9192-4A29-8FE2-826518F74F31}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E981DCF3-F5AD-410D-92CF-7C073B825239}
+	EndGlobalSection
+EndGlobal

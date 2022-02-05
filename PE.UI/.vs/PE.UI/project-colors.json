@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "d74381b9-b5d3-45d3-9a53-c3d5e6be0da1": {
+      "ProjectGuid": "d74381b9-b5d3-45d3-9a53-c3d5e6be0da1",
+      "DisplayName": "PE.UI",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 1
+}

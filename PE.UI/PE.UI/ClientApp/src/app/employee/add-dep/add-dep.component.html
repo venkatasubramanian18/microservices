@@ -1,0 +1,26 @@
+<div class="form-froup row">
+
+  <label class="col-sm-2 col-form-label">First Name</label>
+  <div class="col-sm-10">
+    <input type="text" class="form-control" [(ngModel)]="FirstName"
+           placeholder="Enter First Name">
+  </div>
+  <label class="col-sm-2 col-form-label">Last Name</label>
+  <div class="col-sm-10">
+    <input type="text" class="form-control" [(ngModel)]="LastName"
+           placeholder="Enter Last Name">
+  </div>
+
+  <label class="col-sm-2 col-form-label">Dependent Type</label>
+  <div class="col-sm-10">
+    <select class="form-control" (ngModelChange)="setNewDependentType($event)" [(ngModel)]="DependentType">
+      <option *ngFor="let dtlist of DependentTypeList" [ngValue]="dtlist">
+        {{dtlist.DependentType}}
+      </option>
+    </select>
+  </div>
+</div>
+
+<button (click)="adddependent()" class="btn btn-primary">
+  Add
+</button>

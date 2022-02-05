@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PE.EmployeeAPIService</name>
+    </assembly>
+    <members>
+        <member name="T:PE.EmployeeAPIService.Controllers.EmployeesController">
+            <summary>
+            Employee Api Service responsible for CRUD operation in Database 
+            </summary>
+        </member>
+        <member name="M:PE.EmployeeAPIService.Controllers.EmployeesController.GetEmployees">
+            <summary>
+            Get method returns Employee only data
+            </summary>
+            <returns>Returns arrays of Employee data</returns>
+        </member>
+        <member name="M:PE.EmployeeAPIService.Controllers.EmployeesController.GetPaycheckTypes">
+            <summary>
+            Get method returns Paycheck Types
+            </summary>
+            <returns>Returns arrays of Paycheck Types</returns>
+        </member>
+        <member name="M:PE.EmployeeAPIService.Controllers.EmployeesController.GetEmployees(System.Guid)">
+            <summary>
+            Get method returns Employee Data using Employee Id
+            </summary>
+            <returns>Returns Employee data specifc to an Employee</returns>
+        </member>
+        <member name="M:PE.EmployeeAPIService.Controllers.EmployeesController.PutEmployees(System.Guid,PE.EmployeeAPIService.Models.UpdateEmployees)">
+            <summary>
+            Put method updates the Employee data
+            </summary>
+            <param name="id"></param>
+            <param name="updateEmployees"></param>
+            <returns>Returns nothing</returns>
+        </member>
+        <member name="M:PE.EmployeeAPIService.Controllers.EmployeesController.PostEmployees(PE.EmployeeAPIService.Models.UpdateEmployees)">
+            <summary>
+            Post method updates the Employee data into database
+            </summary>
+            <param name="updateEmployees"></param>
+            <returns>On creation it returns the created Employee details</returns>
+        </member>
+        <member name="M:PE.EmployeeAPIService.Controllers.EmployeesController.DeleteEmployees(System.Guid)">
+            <summary>
+            Delete method delete a particular Employee data from all its foreign key related tables
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PE.EmployeeAPIService.Filters.ExceptionLogFilter.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+            Exception gets thrown when there is an error in application
+            </summary>
+            <param name="context"></param>
+        </member>
+    </members>
+</doc>
