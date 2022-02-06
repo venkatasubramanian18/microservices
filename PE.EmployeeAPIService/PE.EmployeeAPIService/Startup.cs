@@ -43,6 +43,8 @@ namespace PE.EmployeeAPIService
                  .AllowAnyHeader());
             });
 
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
             //JSON Serializer
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
@@ -73,8 +75,8 @@ namespace PE.EmployeeAPIService
             services.AddDbContext<PaylocityContext>(
                 options =>
                 {
-                    options.UseSqlServer(this.Configuration.GetConnectionString("PaylocitySqlConn"));
-                }, ServiceLifetime.Singleton);                   
+                    options.UseSqlServer(configuration.GetConnectionString("PaylocitySqlConn"));
+                }, ServiceLifetime.Transient);                   
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         }

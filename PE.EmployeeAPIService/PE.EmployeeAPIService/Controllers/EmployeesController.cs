@@ -62,7 +62,7 @@ namespace PE.EmployeeAPIService.Controllers
         {
             var employee = await _employeeRepository.RetrieveEmployeeById(id);
 
-            if (employee.EmployeeId == Guid.Empty)
+            if (employee == null || employee.EmployeeId == Guid.Empty)
             {
                 return NotFound();
             }

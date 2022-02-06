@@ -51,7 +51,7 @@ namespace PE.EmployeeAPIService.Common
 
         public async Task<Employees> RetrieveEmployeeById(Guid employeeId)
         {
-            return await _context.Employees.Where(emp => emp.EmployeeId == employeeId).FirstAsync();
+            return await _context.Employees.Where(emp => emp.EmployeeId == employeeId).FirstOrDefaultAsync();
         }
 
         public async Task<Employees> SaveEmployee(UpdateEmployees updateEmployees)
