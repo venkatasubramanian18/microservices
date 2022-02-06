@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using PE.ApiHelper.Context;
 using PE.BusinessAPIService.Common;
 using PE.BusinessAPIService.Common.Calculator;
+using PE.BusinessAPIService.Common.Interfaces;
 using PE.BusinessAPIService.Models;
 using System;
 using System.Threading.Tasks;
@@ -17,11 +18,11 @@ namespace PE.BusinessAPIService.Controllers
     [ApiController]
     public class DeductionCalcController : ControllerBase
     {
-        private readonly IBenefitsDeductCalc _benefitsDeductCalc;
+        private readonly IBenefitsDeductionCalcRepository _benefitsDeductionCalcRepository;
 
-        public DeductionCalcController(IBenefitsDeductCalc benefitsDeductCalc)
+        public DeductionCalcController(IBenefitsDeductionCalcRepository benefitsDeductionCalcRepository)
         {
-            _benefitsDeductCalc = benefitsDeductCalc;
+            _benefitsDeductionCalcRepository = benefitsDeductionCalcRepository;
         }
 
         /// <summary>
@@ -35,30 +36,15 @@ namespace PE.BusinessAPIService.Controllers
         {
             if (employeeId == Guid.Empty)
                 return BadRequest();
-
-            _benefitsDeductCalc.Initialize(employeeId);
-
-            var employeeBenefitsDeductedPerYear = Math.Round(_benefitsDeductCalc.BenefitsDeductPerYearCalc(true), 2);
-            var employeeBenefitsDeductedPerPayCheck = Math.Round(_benefitsDeductCalc.BenefitsDeductPerPaycheckCalc(true), 2);
-
-            var dependentsBenefitsDeductedPerYear = Math.Round(_benefitsDeductCalc.BenefitsDeductPerYearCalc(false), 2);
-            var dependentsBenefitsDeductedPerPayCheck = Math.Round(_benefitsDeductCalc.BenefitsDeductPerPaycheckCalc(false), 2);
-
-            var totalBenefitsDeductedPerPayCheck = Math.Round(employeeBenefitsDeductedPerPayCheck + dependentsBenefitsDeductedPerPayCheck, 2);
-            var totalBenefitsDeductedPerYear = Math.Round(employeeBenefitsDeductedPerYear + dependentsBenefitsDeductedPerYear, 2);
-
-            var totalSalaryAfterDeducted = Math.Round(_benefitsDeductCalc.CalculatedDedecutedSalay() - totalBenefitsDeductedPerYear, 2);
-
-            var benefitsDeductionResults = new BenefitsDeductionResults()
+            BenefitsDeductionResults benefitsDeductionResults = null;
+            try
             {
-                EmployeeBenefitsDeductedPerYear = employeeBenefitsDeductedPerYear,
-                EmployeeBenefitsDeductedPerPayCheck = employeeBenefitsDeductedPerPayCheck,
-                DependentsBenefitsDeductedPerYear = dependentsBenefitsDeductedPerYear,
-                DependentsBenefitsDeductedPerPayCheck = dependentsBenefitsDeductedPerPayCheck,
-                TotalBenefitsDeductedPerPayCheck = totalBenefitsDeductedPerPayCheck,
-                TotalBenefitsDeductedPerPayYear = totalBenefitsDeductedPerYear,
-                TotalSalaryAfterDeducted = totalSalaryAfterDeducted
-            };
+                benefitsDeductionResults = _benefitsDeductionCalcRepository.ReturnBenefitsDeductionCalc(employeeId);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(CreatedAtAction("ErrorContext", new { Message = ex.Message, StackTrace = ex.StackTrace }));
+            }
 
             return Ok(benefitsDeductionResults);
         }

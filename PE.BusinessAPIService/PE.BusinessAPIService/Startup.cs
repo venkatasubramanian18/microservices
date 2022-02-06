@@ -11,6 +11,8 @@ using Newtonsoft.Json.Serialization;
 using PE.ApiHelper.Context;
 using PE.BusinessAPIService.Common.CalcBenefitsDiscount;
 using PE.BusinessAPIService.Common.Calculator;
+using PE.BusinessAPIService.Common.Interfaces;
+using PE.BusinessAPIService.Common.Repository;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,6 +34,8 @@ namespace PE.BusinessAPIService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
             services.AddControllers().AddNewtonsoftJson();
 
             services.AddSwaggerGen(options =>
@@ -63,9 +67,10 @@ namespace PE.BusinessAPIService
             services.AddDbContext<PaylocityContext>(
                 options =>
                 {
-                    options.UseSqlServer(this.Configuration.GetConnectionString("PaylocitySqlConn"));
+                    options.UseSqlServer(configuration.GetConnectionString("PaylocitySqlConn"));
                 });
-            services.AddScoped<IBenefitsDeductCalc, BenefitsDeductCalc>();
+            services.AddScoped<IBenefitsDeductionCalcRepository, BenefitsDeductionCalcRepository>();
+            services.AddTransient<IBenefitsDeductCalc, BenefitsDeductCalc>();
             services.AddScoped<INameBasedDiscount, NameBasedDiscount>();
         }
 

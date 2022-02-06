@@ -35,10 +35,15 @@ namespace PE.EmployeeAPIService.Controllers
         /// <returns>Returns arrays of Employee data</returns>
         // GET: api/Employees
         [HttpGet]
-        public async Task<IList> GetEmployees()
+        public async Task<ActionResult<IList>> GetEmployees()
         {
             Log.Information("Executing Get method returns Employee only data");
-            return await _employeeRepository.RetrieveEmployeeOnlyData(); 
+            var employeesData = await _employeeRepository.RetrieveEmployeeOnlyData();
+
+            if (employeesData == null)
+                return NotFound();
+
+            return Ok(employeesData);
         }
 
         /// <summary>
@@ -48,8 +53,12 @@ namespace PE.EmployeeAPIService.Controllers
         // GET: api/PaycheckTypes
         [HttpGet("PaycheckTypes")]
         public async Task<ActionResult<List<PaycheckTypes>>> GetPaycheckTypes()
-        {            
-            return await _employeeRepository.RetrieveAllPaycheckTypes();
+        {           
+            var paycheckTypes = await _employeeRepository.RetrieveAllPaycheckTypes();
+            if (paycheckTypes == null)
+                return BadRequest();
+
+            return Ok(paycheckTypes);
         }
 
         /// <summary>

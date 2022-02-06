@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PE.ApiHelper.Context;
 using PE.ApiHelper.Entities;
+using PE.DependentAPIService.Common.Interfaces;
 
 namespace PE.DependentAPIService.Controllers
 {
@@ -17,11 +18,11 @@ namespace PE.DependentAPIService.Controllers
     [ApiController]
     public class DependentsController : ControllerBase
     {
-        private readonly PaylocityContext _context;
+        private readonly IDependentRepository _dependentRepository;
 
-        public DependentsController(PaylocityContext context)
+        public DependentsController(IDependentRepository dependentRepository)
         {
-            _context = context;
+            _dependentRepository = dependentRepository;
         }
 
         /// <summary>
@@ -30,12 +31,14 @@ namespace PE.DependentAPIService.Controllers
         /// <returns>Returns array of all dependents from DB with dependent types</returns>
         // GET: api/Dependents
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Dependents>>> GetDependents()
+        public async Task<ActionResult<IList<Dependents>>> GetDependents()
         {
-            var queryDependents = await _context.Dependents
-                                            .Include(x => x.DependentType)
-                                            .ToListAsync();
-            return queryDependents;
+            var dependentsData = await _dependentRepository.RetrieveDependentsData();
+
+            if (dependentsData == null)
+                return NotFound();
+
+            return Ok(dependentsData);
         }
 
         /// <summary>
@@ -44,9 +47,14 @@ namespace PE.DependentAPIService.Controllers
         /// <returns>Returns array for different Dependent Type</returns>
         // GET: api/Dependents
         [HttpGet("Types")]
-        public async Task<ActionResult<IEnumerable<DependentTypes>>> GetDependentTypes()
+        public async Task<ActionResult<IList<DependentTypes>>> GetDependentTypes()
         {
-            return await _context.DependentTypes.ToListAsync();
+            var dependentTypes = await _dependentRepository.RetrieveDependentTypes();
+
+            if (dependentTypes == null)
+                return NotFound();
+
+            return Ok(dependentTypes);
         }
 
         /// <summary>
@@ -56,16 +64,16 @@ namespace PE.DependentAPIService.Controllers
         /// <returns>Returns the Dependents count for a specific Employee</returns>
         // GET: api/Dependents/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<int>> GetDependents(Guid id)
+        public async Task<IActionResult> GetDependents(Guid id)
         {
-            var dependents = await _context.Dependents.Where(x => x.EmployeeId == id).ToListAsync();
+            Task<int> dependentsCount = _dependentRepository.RetrieveDependentCountById(id);
 
-            if (dependents == null)
+            if (dependentsCount.Result == 0)
             {
                 return NotFound();
             }
 
-            return dependents.Count;
+            return Ok(dependentsCount.Result);
         }
 
         /// <summary>
@@ -83,27 +91,16 @@ namespace PE.DependentAPIService.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(dependents).State = EntityState.Modified;
-
             try
             {
-                dependents.CreatedDate = 
-                    dependents.ModifiedDate = DateTime.Now;
-                await _context.SaveChangesAsync();
+                await _dependentRepository.UpdatetDependent(id, dependents);
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DependentsExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+            catch (Exception ex)
+            {             
+                return NoContent();
             }
 
-            return NoContent();
+            return Ok();
         }
 
         /// <summary>
@@ -115,11 +112,14 @@ namespace PE.DependentAPIService.Controllers
         [HttpPost]
         public async Task<ActionResult<Dependents>> PostDependents(Dependents dependents)
         {
-            dependents.CreatedDate = DateTime.Now;
-            _context.Dependents.Add(dependents);
-            await _context.SaveChangesAsync();
+            if (dependents == null)
+                return BadRequest();
 
-            return CreatedAtAction("GetDependents", new { id = dependents.DependentId }, dependents);
+            var savedDependent = await _dependentRepository.SaveDependents(dependents);
+            if (savedDependent == null)
+                return NoContent();
+
+            return Ok(CreatedAtAction("GetDependents", new { id = dependents.DependentId }, dependents));
         }
 
         /// <summary>
@@ -131,21 +131,12 @@ namespace PE.DependentAPIService.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Dependents>> DeleteDependents(Guid id)
         {
-            var dependents = await _context.Dependents.FindAsync(id);
+            var dependents = await _dependentRepository.DeleteDependent(id);
+
             if (dependents == null)
-            {
                 return NotFound();
-            }
 
-            _context.Dependents.Remove(dependents);
-            await _context.SaveChangesAsync();
-
-            return dependents;
-        }
-
-        private bool DependentsExists(Guid id)
-        {
-            return _context.Dependents.Any(e => e.DependentId == id);
+            return Ok();
         }
     }
 }

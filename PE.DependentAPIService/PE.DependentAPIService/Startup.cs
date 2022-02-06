@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using PE.ApiHelper.Context;
+using PE.DependentAPIService.Common.Interfaces;
+using PE.DependentAPIService.Common.Repository;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +32,7 @@ namespace PE.DependentAPIService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
             //Enable CORS
             services.AddCors(c =>
             {
@@ -49,7 +52,7 @@ namespace PE.DependentAPIService
             services.AddDbContext<PaylocityContext>(
                 options =>
                 {
-                    options.UseSqlServer(this.Configuration.GetConnectionString("PaylocitySqlConn"), sqlOptions =>
+                    options.UseSqlServer(configuration.GetConnectionString("PaylocitySqlConn"), sqlOptions =>
                     {
                         sqlOptions.EnableRetryOnFailure(
                             maxRetryCount: 5,
@@ -72,6 +75,8 @@ namespace PE.DependentAPIService
                 var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
                 options.IncludeXmlComments(filePath);
             });
+
+            services.AddScoped<IDependentRepository, DependentRepository>();
 
         }
 

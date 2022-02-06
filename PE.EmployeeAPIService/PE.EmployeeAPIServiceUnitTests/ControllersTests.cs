@@ -41,10 +41,13 @@ namespace PE.EmployeeAPIServiceUnitTests
 
             var controller = new EmployeesController(mockRepo.Object);
 
-            IList<Employees> listResult = (IList<Employees>)await controller.GetEmployees();
+            var actualResult = await controller.GetEmployees().ConfigureAwait(false);
+            var result = actualResult.Result as OkObjectResult;
 
-            Assert.True(listResult.Count > 0);
-            Assert.Equal(employeeId, listResult.First().EmployeeId);
+            IList<Employees> employee = (IList<Employees>)result.Value;
+
+            Assert.True(employee.Count > 0);
+            Assert.Equal(employeeId, employee.First().EmployeeId);
 
         }
 
@@ -78,11 +81,11 @@ namespace PE.EmployeeAPIServiceUnitTests
 
             var controller = new EmployeesController(mockRepo.Object);
 
-            var result = await controller.GetEmployees(employeeId).ConfigureAwait(false);
-            var actualResult = result as ObjectResult;
+            var actualResult = await controller.GetEmployees(employeeId).ConfigureAwait(false);
+            var result = actualResult as ObjectResult;
 
-            Assert.Null(actualResult);
-            Assert.True(result.GetType().Name == "NotFoundResult");
+            Assert.Null(result);
+            Assert.True(actualResult.GetType().Name == "NotFoundResult");
         }
 
         [Fact]
@@ -96,11 +99,14 @@ namespace PE.EmployeeAPIServiceUnitTests
 
             var controller = new EmployeesController(mockRepo.Object);
 
-            var result = await controller.GetPaycheckTypes().ConfigureAwait(false);
-            var actualResult = result.Value;
+            var actualResult = await controller.GetPaycheckTypes().ConfigureAwait(false);
+            var result = actualResult.Result as OkObjectResult;
+
+            IList<PaycheckTypes> paycheckTypes = (IList<PaycheckTypes>)result.Value;
 
             Assert.NotNull(actualResult);
-            Assert.True(actualResult.Count == 2);
+            Assert.True(result.StatusCode == (int)HttpStatusCode.OK);
+            Assert.True(paycheckTypes.Count == 2);
 
         }
 
