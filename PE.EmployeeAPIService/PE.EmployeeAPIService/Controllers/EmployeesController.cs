@@ -11,6 +11,7 @@ using System.Collections;
 using PE.ApiHelper.Context;
 using PE.ApiHelper.Entities;
 using Serilog;
+using PE.EmployeeAPIService.Common.Interface;
 
 namespace PE.EmployeeAPIService.Controllers
 {
@@ -21,13 +22,11 @@ namespace PE.EmployeeAPIService.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly PaylocityContext _context;
-        private readonly IRetrieve _retrieve;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public EmployeesController(PaylocityContext context, IRetrieve retrieve)
+        public EmployeesController(IEmployeeRepository employeeRepository)
         {
-            _context = context;
-            _retrieve = retrieve;
+            _employeeRepository = employeeRepository;
         }
 
         /// <summary>
@@ -36,13 +35,10 @@ namespace PE.EmployeeAPIService.Controllers
         /// <returns>Returns arrays of Employee data</returns>
         // GET: api/Employees
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Employees>>> GetEmployees()
+        public async Task<IList> GetEmployees()
         {
             Log.Information("Executing Get method returns Employee only data");
-            throw new NotImplementedException();
-            var query = _retrieve.RetrieveEmployeeOnlyData();
-            //return await _context.Employees.ToListAsync();
-            return Ok(query);
+            return await _employeeRepository.RetrieveEmployeeOnlyData(); 
         }
 
         /// <summary>
@@ -51,9 +47,9 @@ namespace PE.EmployeeAPIService.Controllers
         /// <returns>Returns arrays of Paycheck Types</returns>
         // GET: api/PaycheckTypes
         [HttpGet("PaycheckTypes")]
-        public async Task<ActionResult<IEnumerable<PaycheckTypes>>> GetPaycheckTypes()
+        public async Task<ActionResult<List<PaycheckTypes>>> GetPaycheckTypes()
         {            
-            return Ok(await _context.PaycheckTypes.ToListAsync());
+            return await _employeeRepository.RetrieveAllPaycheckTypes();
         }
 
         /// <summary>
@@ -62,16 +58,16 @@ namespace PE.EmployeeAPIService.Controllers
         /// <returns>Returns Employee data specifc to an Employee</returns>
         // GET: api/Employees/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Employees>> GetEmployees(Guid id)
+        public async Task<IActionResult> GetEmployees(Guid id)
         {
-            var employees = await _context.Employees.FindAsync(id);
+            var employee = await _employeeRepository.RetrieveEmployeeById(id);
 
-            if (employees == null)
+            if (employee.EmployeeId == Guid.Empty)
             {
                 return NotFound();
             }
 
-            return employees;
+            return Ok(employee);
         }
 
         /// <summary>
@@ -87,47 +83,22 @@ namespace PE.EmployeeAPIService.Controllers
         public async Task<IActionResult> PutEmployees(Guid id, UpdateEmployees updateEmployees)
         {
 
-            Employees employees = new Employees()
-            {
-                EmployeeId = updateEmployees.EmployeeId,
-                FirstName = updateEmployees.FirstName,
-                LastName = updateEmployees.LastName,
-                CreatedDate = updateEmployees.CreatedDate,
-                ModifiedDate = DateTime.Now
-            };
-
-            if (id != employees.EmployeeId)
-            {
+            if (id != updateEmployees.EmployeeId)
                 return BadRequest();
-            }
-
-            employees.ModifiedDate = 
-                employees.CreatedDate = DateTime.Now;
-
-            _context.Entry(employees).State = EntityState.Modified;
 
             try
             {
-                var salaries = _context.Salaries.FirstOrDefault(x => x.EmployeeId == employees.EmployeeId);
-                salaries.Salary = updateEmployees.Salary;
-                employees.Salaries.Add(salaries);
-
-                await _context.SaveChangesAsync();
+                await _employeeRepository.UpdateEmployee(id, updateEmployees);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!EmployeesExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                Log.Error("Execution for update employee failed. " + "Message : " + ex.Message + "Stacktrace : " + ex.StackTrace);
+                return NoContent();
             }
 
-            return NoContent();
+            return Ok();
         }
+
         /// <summary>
         /// Post method updates the Employee data into database
         /// </summary>
@@ -139,41 +110,11 @@ namespace PE.EmployeeAPIService.Controllers
         [HttpPost]
         public async Task<ActionResult<Employees>> PostEmployees(UpdateEmployees updateEmployees)
         {
-            Employees employees = null;
-            using (var context = _context.Database.BeginTransaction())
-            {
-                try
-                {
-                    employees = new Employees()
-                    {
-                        EmployeeId = Guid.NewGuid(),
-                        FirstName = updateEmployees.FirstName,
-                        LastName = updateEmployees.LastName,
-                        CreatedDate = DateTime.Now,
-                        ModifiedDate = DateTime.MinValue
-                    };
+            if (updateEmployees == null)
+                return BadRequest();
 
-                    _context.Employees.Add(employees);
-
-                    await _context.SaveChangesAsync();
-
-                    var paycheckID = _context.PaycheckTypes.Where(x => x.PaycheckType == updateEmployees.PaycheckType).Select(y => y.PaycheckTypeId).FirstOrDefault();
-                    if (paycheckID == null)
-                        throw new Exception();
-
-                    Salaries salaries = new Salaries() { EmployeeId = employees.EmployeeId, Salary = updateEmployees.Salary, SalaryId = new Guid(), PaycheckTypeId = paycheckID };
-                    _context.Salaries.Add(salaries);
-
-                    await _context.SaveChangesAsync();
-                    context.Commit();
-                }
-                catch (Exception)
-                {
-                    context.Rollback();
-                }
-
-                return Ok(CreatedAtAction("GetEmployees", new { id = employees.EmployeeId }, employees));
-            }
+            var employee = await _employeeRepository.SaveEmployee(updateEmployees);
+            return Ok(CreatedAtAction("PostEmployees", new { id = employee?.EmployeeId }));            
         }
 
         /// <summary>
@@ -185,42 +126,11 @@ namespace PE.EmployeeAPIService.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Employees>> DeleteEmployees(Guid id)
         {
-            dynamic employees = null;
-            using (var context = _context.Database.BeginTransaction())
-            {
-                try
-                {
-                    employees = await _context.Employees.FindAsync(id);
-                    if (employees == null)
-                    {
-                        return NotFound();
-                    }
+            var employee = await _employeeRepository.DeleteEmployee(id);
+            if(employee == null)
+                return NotFound();
 
-                    var salary = await _context.Salaries.Where(x => x.EmployeeId == id).FirstOrDefaultAsync();
-                    if (salary != null)
-                        _context.Salaries.Remove(salary);
-
-                    var dependents = _context.Dependents?.Where(y => y.EmployeeId == id);
-                    if (dependents != null)
-                        _context.Dependents.RemoveRange(_context.Dependents?.Where(y => y.EmployeeId == id));
-
-                    _context.Employees.Remove(employees);
-                    await _context.SaveChangesAsync();
-
-                    await context.CommitAsync();
-                }
-                catch (Exception ex)
-                {
-                    await context.RollbackAsync();
-                }
-             }
-
-            return employees;
-        }
-
-        private bool EmployeesExists(Guid id)
-        {
-            return _context.Employees.Any(e => e.EmployeeId == id);
+            return Ok();
         }
     }
 }

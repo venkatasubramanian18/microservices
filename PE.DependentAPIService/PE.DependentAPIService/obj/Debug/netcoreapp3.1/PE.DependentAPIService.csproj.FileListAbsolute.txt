@@ -289,3 +289,4 @@ D:\microservices\PE.DependentAPIService\PE.DependentAPIService\obj\Debug\netcore
 D:\microservices\PE.DependentAPIService\PE.DependentAPIService\obj\Debug\netcoreapp3.1\PE.DependentAPIService.genruntimeconfig.cache
 D:\microservices\PE.DependentAPIService\PE.DependentAPIService\bin\Debug\netcoreapp3.1\PE.DependentAPIService.xml
 D:\microservices\PE.DependentAPIService\PE.DependentAPIService\obj\Debug\netcoreapp3.1\PE.DependentAPIService.xml
+D:\microservices\PE.DependentAPIService\PE.DependentAPIService\obj\Debug\netcoreapp3.1\PE.DependentAPIService.csproj.AssemblyReference.cache

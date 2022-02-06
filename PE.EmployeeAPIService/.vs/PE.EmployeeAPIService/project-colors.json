@@ -20,7 +20,17 @@
       "ProjectGuid": "919fd655-f067-4ba2-b932-d926e85dd6b4",
       "DisplayName": "Script Documents",
       "ColorIndex": 2
+    },
+    "3baa8848-5eaa-4a91-af1a-c753e520b1c9": {
+      "ProjectGuid": "3baa8848-5eaa-4a91-af1a-c753e520b1c9",
+      "DisplayName": "PE.EmployeeAPIServiceUnitTests",
+      "ColorIndex": 3
+    },
+    "50478ab4-14d1-4443-a5a1-511b94aad2ac": {
+      "ProjectGuid": "50478ab4-14d1-4443-a5a1-511b94aad2ac",
+      "DisplayName": "PE.EmployeeAPIServiceTests",
+      "ColorIndex": 4
     }
   },
-  "NextColorIndex": 3
+  "NextColorIndex": 5
 }

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using PE.ApiHelper.Context;
 using PE.EmployeeAPIService.Common;
+using PE.EmployeeAPIService.Common.Interface;
 using PE.EmployeeAPIService.Filters;
 using PE.EmployeeAPIService.Models;
 using Serilog;
@@ -73,9 +74,9 @@ namespace PE.EmployeeAPIService
                 options =>
                 {
                     options.UseSqlServer(this.Configuration.GetConnectionString("PaylocitySqlConn"));
-                });                   
+                }, ServiceLifetime.Singleton);                   
 
-            services.AddScoped<IRetrieve, Retrieve>();
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

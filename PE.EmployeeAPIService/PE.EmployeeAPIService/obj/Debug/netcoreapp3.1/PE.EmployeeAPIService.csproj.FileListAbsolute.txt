@@ -138,7 +138,6 @@ D:\microserviceproject\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\net
 D:\microserviceproject\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreapp3.1\PE.EmployeeAPIService.dll
 D:\microserviceproject\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreapp3.1\PE.EmployeeAPIService.pdb
 D:\microserviceproject\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreapp3.1\PE.EmployeeAPIService.genruntimeconfig.cache
-D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreapp3.1\PE.EmployeeAPIService.csproj.AssemblyReference.cache
 D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreapp3.1\PE.EmployeeAPIService.GeneratedMSBuildEditorConfig.editorconfig
 D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreapp3.1\PE.EmployeeAPIService.AssemblyInfoInputs.cache
 D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreapp3.1\PE.EmployeeAPIService.AssemblyInfo.cs
@@ -305,3 +304,7 @@ D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreap
 D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreapp3.1\PE.EmployeeAPIService.xml
 D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreapp3.1\PE.EmployeeAPIService.pdb
 D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\obj\Debug\netcoreapp3.1\PE.EmployeeAPIService.genruntimeconfig.cache
+D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\bin\Debug\netcoreapp3.1\xunit.abstractions.dll
+D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\bin\Debug\netcoreapp3.1\xunit.assert.dll
+D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\bin\Debug\netcoreapp3.1\xunit.core.dll
+D:\microservices\PE.EmployeeAPIService\PE.EmployeeAPIService\bin\Debug\netcoreapp3.1\xunit.execution.dotnet.dll
