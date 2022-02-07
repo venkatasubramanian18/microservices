@@ -43,8 +43,8 @@ namespace PE.BusinessAPIService
                 options.SwaggerDoc("v1",
                     new Microsoft.OpenApi.Models.OpenApiInfo
                     {
-                        Title = "Employee Service API",
-                        Description = "Handles CRUD for Employee Database",
+                        Title = "Business Service API",
+                        Description = "Handles Calculation for Benefits and Salary",
                         Version = "v1"
                     });
 

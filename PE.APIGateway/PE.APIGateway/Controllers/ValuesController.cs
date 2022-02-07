@@ -12,7 +12,7 @@ namespace PE.APIGateway.Controllers
     {
         // GET: api/<ValuesController>
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public string Get()
         {
             return "Gateway Api Operational";

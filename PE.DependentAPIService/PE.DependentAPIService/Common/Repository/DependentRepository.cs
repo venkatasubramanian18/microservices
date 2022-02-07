@@ -63,24 +63,20 @@ namespace PE.DependentAPIService.Common.Repository
         public async Task<Dependents> DeleteDependent(Guid id)
         {
             dynamic dependents = null;
-            using (var context = _context.Database.BeginTransaction())
+            try
             {
-                try
-                {
 
-                    dependents = await _context.Dependents.FindAsync(id);
+                dependents = await _context.Dependents.FindAsync(id);
 
-                    _context.Dependents.Remove(dependents);
+                _context.Dependents.Remove(dependents);
 
-                    await _context.SaveChangesAsync();
-                    await context.CommitAsync();
+                await _context.SaveChangesAsync();
 
-                }
-                catch (Exception ex)
-                {
-                    await context.RollbackAsync().ConfigureAwait(false);
-                }
             }
+            catch (Exception ex)
+            {
+               
+            }          
 
             return dependents;
         }

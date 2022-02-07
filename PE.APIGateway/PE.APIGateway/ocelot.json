@@ -11,7 +11,8 @@
       ],
       "UpstreamPathTemplate": "/gateway/employees",
       "UpstreamHttpMethod": [
-        "GET"
+        "GET",
+        "POST"
       ]
     },
     {
@@ -29,6 +30,21 @@
       ]
     },
     {
+      "DownstreamPathTemplate": "/api/employees/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "5001"
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/employees/{id}",
+      "UpstreamHttpMethod": [
+        "DELETE",
+        "PUT"
+      ]
+    },
+    {
       "DownstreamPathTemplate": "/api/dependents",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
@@ -38,6 +54,35 @@
         }
       ],
       "UpstreamPathTemplate": "/gateway/dependents",
+      "UpstreamHttpMethod": [
+        "GET", "POST"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/dependents/{id}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "5002"
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/dependents/{id}",
+      "UpstreamHttpMethod": [
+        "PUT",
+        "DELETE"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/dependents/Types",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "5002"
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/dependentsTypes",
       "UpstreamHttpMethod": [
         "GET"
       ]

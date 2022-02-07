@@ -26,7 +26,7 @@
 
 	<ItemGroup>
 	  <Reference Include="PE.ApiHelper">
-	    <HintPath>..\..\PE.ApiHelper\PE.ApiHelper\bin\Debug\netcoreapp3.1\PE.ApiHelper.dll</HintPath>
+	    <HintPath>..\..\..\microserviceproject\PE.ApiHelper\PE.ApiHelper\bin\Debug\netcoreapp3.1\PE.ApiHelper.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 

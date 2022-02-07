@@ -32,25 +32,17 @@ namespace PE.APIGateway
                  .AllowAnyHeader());
             });
 
-            //JSON Serializer
-            services.AddControllersWithViews()
-                .AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
-                .Json.ReferenceLoopHandling.Ignore)
-                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
-                = new DefaultContractResolver());
-
             services.AddControllers();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = Configuration.GetSection("Authorization:Authority").Value;
-                options.Audience = Configuration.GetSection("Authorization:Audience").Value;
-            });
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(options =>
+            //{
+            //    options.Authority = Configuration.GetSection("Authorization:Authority").Value;
+            //    options.Audience = Configuration.GetSection("Authorization:Audience").Value;
+            //});
 
             services.AddOcelot(Configuration);
         }
@@ -71,8 +63,8 @@ namespace PE.APIGateway
             app.UseRouting();
 
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
