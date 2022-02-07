@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
+import { AppConfiguration } from "read-appsettings-json";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
-  readonly EmployeeServiceAPIUrl = "https://localhost:5001/api";
+  //readonly EmployeeServiceAPIUrl = "https://localhost:5001/api";
+  readonly EmployeeServiceAPIUrl = AppConfiguration.Setting().Application.EmployeeServiceAPIUrl;
   readonly DependentServiceAPIUrl = "https://localhost:5002/api";
   readonly BusinessServiceAPIUrl = "https://localhost:5003/api";
 

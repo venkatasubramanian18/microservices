@@ -23,14 +23,19 @@
     },
     "3baa8848-5eaa-4a91-af1a-c753e520b1c9": {
       "ProjectGuid": "3baa8848-5eaa-4a91-af1a-c753e520b1c9",
-      "DisplayName": "PE.EmployeeAPIServiceUnitTests",
+      "DisplayName": "PE.EmployeeAPIService.UnitTests",
       "ColorIndex": 3
     },
     "50478ab4-14d1-4443-a5a1-511b94aad2ac": {
       "ProjectGuid": "50478ab4-14d1-4443-a5a1-511b94aad2ac",
       "DisplayName": "PE.EmployeeAPIServiceTests",
       "ColorIndex": 4
+    },
+    "0f276ab4-3453-4eb7-b3a5-11f1fc232f81": {
+      "ProjectGuid": "0f276ab4-3453-4eb7-b3a5-11f1fc232f81",
+      "DisplayName": "PE.EmployeeAPIService.IntegrationTests",
+      "ColorIndex": 5
     }
   },
-  "NextColorIndex": 5
+  "NextColorIndex": 6
 }

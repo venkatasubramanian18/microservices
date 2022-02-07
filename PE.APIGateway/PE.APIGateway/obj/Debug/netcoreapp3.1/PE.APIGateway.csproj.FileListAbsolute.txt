@@ -59,3 +59,10 @@ D:\microservices\PE.APIGateway\PE.APIGateway\obj\Debug\netcoreapp3.1\PE.APIGatew
 D:\microservices\PE.APIGateway\PE.APIGateway\obj\Debug\netcoreapp3.1\PE.APIGateway.pdb
 D:\microservices\PE.APIGateway\PE.APIGateway\obj\Debug\netcoreapp3.1\PE.APIGateway.genruntimeconfig.cache
 D:\microservices\PE.APIGateway\PE.APIGateway\obj\Debug\netcoreapp3.1\PE.APIGateway.csproj.AssemblyReference.cache
+D:\microservices\PE.APIGateway\PE.APIGateway\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\microservices\PE.APIGateway\PE.APIGateway\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\microservices\PE.APIGateway\PE.APIGateway\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+D:\microservices\PE.APIGateway\PE.APIGateway\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+D:\microservices\PE.APIGateway\PE.APIGateway\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\microservices\PE.APIGateway\PE.APIGateway\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+D:\microservices\PE.APIGateway\PE.APIGateway\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
