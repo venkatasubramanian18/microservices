@@ -4,10 +4,10 @@ namespace PE.BusinessAPIService.Common.Calculator
 {
     public interface IBenefitsDeductCalc
     {
-        public void Initialize(Guid employeeId);
-        public decimal BenefitsDeductPerPaycheckCalc(bool isEmployee);
-        public decimal BenefitsDeductPerYearCalc(bool isEmployee);
-        public decimal CalculatedDedecutedSalay();
+        void Initialize(Guid employeeId);
+        decimal BenefitsDeductPerPaycheckCalc(bool isEmployee);
+        decimal BenefitsDeductPerYearCalc(bool isEmployee);
+        decimal CalculatedDedecutedSalay();
 
     }
 }

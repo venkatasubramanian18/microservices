@@ -36,6 +36,7 @@ namespace PE.BusinessAPIService.Controllers
         {
             if (employeeId == Guid.Empty)
                 return BadRequest();
+
             BenefitsDeductionResults benefitsDeductionResults = null;
             try
             {

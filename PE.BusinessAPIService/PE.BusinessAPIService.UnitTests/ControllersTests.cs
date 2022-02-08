@@ -32,10 +32,9 @@ namespace PE.BusinessAPIService.UnitTests
                 TotalSalaryAfterDeducted = decimal.Zero,
             };
 
-            Mock<IBenefitsDeductionCalcRepository> mockRepo = new Mock<IBenefitsDeductionCalcRepository>();
-            mockRepo.Setup(m => m.ReturnBenefitsDeductionCalc(employeeId)).Returns(benefitsDeductionResults);
+            _repository.Setup(m => m.ReturnBenefitsDeductionCalc(employeeId)).Returns(benefitsDeductionResults);
 
-            var controller = new DeductionCalcController(mockRepo.Object);
+            var controller = new DeductionCalcController(_repository.Object);
 
             var actualResult = controller.DeductionCalc(employeeId);
             

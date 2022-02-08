@@ -2,6 +2,6 @@
 {
     public interface INameBasedDiscount
     {
-        public decimal Discount(string name);
+        decimal Discount(string name);
     }
 }
