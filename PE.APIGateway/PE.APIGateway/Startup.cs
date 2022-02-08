@@ -34,21 +34,21 @@ namespace PE.APIGateway
 
             services.AddControllers();
 
-            //services.AddAuthentication(options =>
-            //{
-            //    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(options =>
-            //{
-            //    options.Authority = Configuration.GetSection("Authorization:Authority").Value;
-            //    options.Audience = Configuration.GetSection("Authorization:Audience").Value;
-            //});
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer("Bearer", options =>
+            {
+                options.Authority = Configuration.GetSection("Authorization:Authority").Value;
+                options.Audience = Configuration.GetSection("Authorization:Audience").Value;
+            });
 
             services.AddOcelot(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -63,13 +63,25 @@ namespace PE.APIGateway
             app.UseRouting();
 
 
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
+            //var config = new OcelotPipelineConfiguration()
+            //{
+            //    PreAuthenticationMiddleware = async (ctx, next) => 
+            //    {
+            //        ctx.Response.HttpContext.Response.ContentType = "application/json";
+            //        ctx.Response.HttpContext.Response.StatusCode = 401;
+            //        ctx.Response.ContentType = "application/json";
+            //        ctx.Response.StatusCode = 401;
+            //        return;
+            //    }
+            //};
 
             app.UseOcelot();
 

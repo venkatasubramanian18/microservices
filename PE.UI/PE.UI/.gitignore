@@ -229,3 +229,8 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+
+/src/environments/**
+**/src/environments/**
+**/environments/**
+**environments**

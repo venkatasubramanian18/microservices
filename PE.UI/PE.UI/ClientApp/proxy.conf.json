@@ -1,0 +1,6 @@
+{
+  "/api": {
+    "target": "https://dev-qb-0xsnn.us.auth0.com/oauth/token",
+    "secure": false
+  }
+}

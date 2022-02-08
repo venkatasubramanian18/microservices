@@ -22,6 +22,7 @@ export class ShowEmpComponent implements OnInit {
   emp:any;
 
   ngOnInit(): void {
+    this.getToken();
     this.refreshEmpList();
     this.refreshPaycheckList();
     this.refreshNoofDep();
@@ -78,8 +79,17 @@ export class ShowEmpComponent implements OnInit {
     this.refreshEmpList();
   }
 
+  getToken() {
+    console.log("getToken");
+    this.service.getOAuthToken().subscribe((res) => {
+      console.log("getToken " + res);
+      localStorage.setItem('_token', res["access_token"]);
+      console.log(localStorage.getItem('_token'));
+    });;
+  }
 
-  refreshEmpList(){
+  refreshEmpList() {
+    console.log("refreshEmpList");
     this.service.getEmpList().subscribe(data=>{
       this.EmployeeList=data;
     });
