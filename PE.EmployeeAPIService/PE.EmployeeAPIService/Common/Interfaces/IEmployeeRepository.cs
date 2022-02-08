@@ -11,11 +11,11 @@ namespace PE.EmployeeAPIService.Common.Interface
     public interface IEmployeeRepository
     {
         //public IList RetrieveEmployeeData();
-        public Task<IList> RetrieveEmployeeOnlyData();
-        public Task<List<PaycheckTypes>> RetrieveAllPaycheckTypes();
-        public Task<Employees> RetrieveEmployeeById(Guid employeeId);
-        public Task UpdateEmployee(Guid id, UpdateEmployees updateEmployees);
-        public Task<Employees> SaveEmployee(UpdateEmployees updateEmployees);
-        public Task<Employees> DeleteEmployee(Guid employeeId);
+        Task<IList> RetrieveEmployeeOnlyData();
+        Task<List<PaycheckTypes>> RetrieveAllPaycheckTypes();
+        Task<Employees> RetrieveEmployeeById(Guid employeeId);
+        Task UpdateEmployee(Guid id, UpdateEmployees updateEmployees);
+        Task<Employees> SaveEmployee(UpdateEmployees updateEmployees);
+        Task<Employees> DeleteEmployee(Guid employeeId);
     }
 }

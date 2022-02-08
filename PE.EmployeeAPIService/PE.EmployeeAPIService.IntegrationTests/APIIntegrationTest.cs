@@ -34,7 +34,7 @@ namespace PE.EmployeeAPIService.IntegrationTests
 
             using (var client = new TestClientProvider().Client)
             {
-                var employeeid = Guid.Parse("BE3F05A6-2589-4B1C-A555-833ED4EF10C9");
+                var employeeid = Guid.Parse("DD177F4E-0D45-4F1A-9256-2EFAAB10D3E6");
                 var response = await client.GetAsync("/api/employees/" + employeeid);
 
                 response.EnsureSuccessStatusCode();
@@ -87,8 +87,8 @@ namespace PE.EmployeeAPIService.IntegrationTests
 
             using (var client = new TestClientProvider().Client)
             {
-                var employeeid = Guid.Parse("BE3F05A6-2589-4B1C-A555-833ED4EF10C9");
-                var jsonString = "{\"employeeId\":\"BE3F05A6-2589-4B1C-A555-833ED4EF10C9\",\"firstName\":\"oi\",\"lastName\":\"yuyu\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\",\"dependents\":[],\"Salary\":99999,\"PaycheckType\":\"104\"}";
+                var employeeid = Guid.Parse("3458AC1A-815B-4E97-AC3C-A89B0E68B9E7");
+                var jsonString = "{\"employeeId\":\"3458AC1A-815B-4E97-AC3C-A89B0E68B9E7\",\"firstName\":\"oi\",\"lastName\":\"yuyu\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\",\"dependents\":[],\"Salary\":99999,\"PaycheckType\":\"104\"}";
                 var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
                 var response = await client.PutAsync("/api/employees/" + employeeid, httpContent);

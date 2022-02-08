@@ -82,8 +82,8 @@ namespace PE.DependentAPIService.IntegrationTests
 
             using (var client = new TestClientProvider().Client)
             {
-                var dependentid = Guid.Parse("0DD3850A-B286-EC11-9839-2C6DC102E08F");
-                var jsonString = "{\"dependentId\":\"0DD3850A-B286-EC11-9839-2C6DC102E08F\",\"employeeId\":\"BE3F05A6-2589-4B1C-A555-833ED4EF10C9\",\"firstName\":\"Manju\",\"lastName\":\"Preethi\",\"dependentTypeId\":\"A0A14B48-62A6-4998-924C-4D6D1168254D\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\"}";
+                var dependentid = Guid.Parse("ABB3AEB5-F287-EC11-983A-2C6DC102E08F");
+                var jsonString = "{\"dependentId\":\"ABB3AEB5-F287-EC11-983A-2C6DC102E08F\",\"employeeId\":\"DD177F4E-0D45-4F1A-9256-2EFAAB10D3E6\",\"firstName\":\"Manju\",\"lastName\":\"Preethi\",\"dependentTypeId\":\"A0A14B48-62A6-4998-924C-4D6D1168254D\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\"}";
                 var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
                 var response = await client.PutAsync("/api/dependents/" + dependentid, httpContent);
