@@ -7,7 +7,7 @@ namespace PE.BusinessAPIService.Common.Calculator
         void Initialize(Guid employeeId);
         decimal BenefitsDeductPerPaycheckCalc(bool isEmployee);
         decimal BenefitsDeductPerYearCalc(bool isEmployee);
-        decimal CalculatedDedecutedSalay();
+        decimal EmployeeSalary { get; }
 
     }
 }

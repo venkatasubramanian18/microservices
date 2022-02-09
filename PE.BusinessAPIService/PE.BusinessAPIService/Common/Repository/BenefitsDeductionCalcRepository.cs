@@ -18,16 +18,23 @@ namespace PE.BusinessAPIService.Common.Repository
         {
             _benefitsDeductCalc.Initialize(employeeId);
 
-            var employeeBenefitsDeductedPerYear = Math.Round(_benefitsDeductCalc.BenefitsDeductPerYearCalc(true), 2);
-            var employeeBenefitsDeductedPerPayCheck = Math.Round(_benefitsDeductCalc.BenefitsDeductPerPaycheckCalc(true), 2);
+            var employeeBenefitsDeductedPerYear = 
+                Math.Round(_benefitsDeductCalc.BenefitsDeductPerYearCalc(true), Constants.ROUNDED_VALUE);
+            var employeeBenefitsDeductedPerPayCheck = 
+                Math.Round(_benefitsDeductCalc.BenefitsDeductPerPaycheckCalc(true), Constants.ROUNDED_VALUE);
 
-            var dependentsBenefitsDeductedPerYear = Math.Round(_benefitsDeductCalc.BenefitsDeductPerYearCalc(false), 2);
-            var dependentsBenefitsDeductedPerPayCheck = Math.Round(_benefitsDeductCalc.BenefitsDeductPerPaycheckCalc(false), 2);
+            var dependentsBenefitsDeductedPerYear = 
+                Math.Round(_benefitsDeductCalc.BenefitsDeductPerYearCalc(false), Constants.ROUNDED_VALUE);
+            var dependentsBenefitsDeductedPerPayCheck = 
+                Math.Round(_benefitsDeductCalc.BenefitsDeductPerPaycheckCalc(false), Constants.ROUNDED_VALUE);
 
-            var totalBenefitsDeductedPerPayCheck = Math.Round(employeeBenefitsDeductedPerPayCheck + dependentsBenefitsDeductedPerPayCheck, 2);
-            var totalBenefitsDeductedPerYear = Math.Round(employeeBenefitsDeductedPerYear + dependentsBenefitsDeductedPerYear, 2);
+            var totalBenefitsDeductedPerPayCheck = 
+                Math.Round(employeeBenefitsDeductedPerPayCheck + dependentsBenefitsDeductedPerPayCheck, Constants.ROUNDED_VALUE);
+            var totalBenefitsDeductedPerYear = 
+                Math.Round(employeeBenefitsDeductedPerYear + dependentsBenefitsDeductedPerYear, Constants.ROUNDED_VALUE);
 
-            var totalSalaryAfterDeducted = Math.Round(_benefitsDeductCalc.CalculatedDedecutedSalay() - totalBenefitsDeductedPerYear, 2);
+            var totalSalaryAfterDeducted = 
+                Math.Round(_benefitsDeductCalc.EmployeeSalary - totalBenefitsDeductedPerYear, Constants.ROUNDED_VALUE);
 
             var benefitsDeductionResults = new BenefitsDeductionResults()
             {

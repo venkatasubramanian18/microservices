@@ -3,19 +3,26 @@ using System.Linq;
 
 namespace PE.BusinessAPIService.Common.CalcBenefitsDiscount
 {
+    /// <summary>
+    /// Name based Discount
+    /// </summary>
     public class NameBasedDiscount : INameBasedDiscount
     {
-        private Dictionary<string, decimal> FirstCharDiscountedNameList;
-
-        public NameBasedDiscount() {
-            FirstCharDiscountedNameList = new Dictionary<string, decimal>();
-            FirstCharDiscountedNameList.Add("a", Constants.NAME_STARTS_WITH_A_DISCOUNT);
-        }
-
-        public decimal Discount(string name)
+        private Dictionary<string, decimal> FirstCharDiscountedNameList = new Dictionary<string, decimal>()
         {
-            var nameBasedDis = FirstCharDiscountedNameList.SingleOrDefault(d => d.Key == name.Substring(0, 1).ToLower());
-                return nameBasedDis.Value;
+            { "a", Constants.NAME_STARTS_WITH_A_DISCOUNT}
+        };
+
+        /// <summary>
+        /// The method assigns the discounted value based on the 1st char of the name passed
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>disount in decimal</returns>
+        public decimal Discount(string name)
+        {           
+            return FirstCharDiscountedNameList
+                .SingleOrDefault(d => d.Key == name.Substring(0, 1).ToLower())
+                .Value;
         }
 
     }

@@ -60,7 +60,7 @@ export class ShowEmpComponent implements OnInit {
   CalcClick(item) {
     console.log("CalcClick : " + item.EmployeeId);
     this.emp = item;
-    this.ModalTitle = "Calulated Benefits deducted and Salary Report";
+    this.ModalTitle = "Calculated Benefits deducted and Salary Report";
     this.ActivateShowCalcComp = true;
   }
 

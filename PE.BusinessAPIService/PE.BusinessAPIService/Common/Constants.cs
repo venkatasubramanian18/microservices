@@ -8,9 +8,7 @@
         public const decimal DEPENDENT_BENEFITS_PER_YEAR = 500;
         public const decimal NAME_STARTS_WITH_A_DISCOUNT = 0.10M;
 
-        public enum NameDiscount
-        {
-            A
-        }
+        public const int ROUNDED_VALUE = 2;
+
     }
 }

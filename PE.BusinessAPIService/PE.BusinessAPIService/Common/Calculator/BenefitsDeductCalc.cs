@@ -14,88 +14,55 @@ namespace PE.BusinessAPIService.Common.Calculator
     {
         private readonly PaylocityContext _context;
         private readonly INameBasedDiscount _nameBasedDiscount;
-        private static decimal payCheckPerAnnum;
-        internal Guid _employeeId { get; set; }
-        internal static Employees employeesList { get; set; }
-        internal static List<Persons> personsList { get; set; }
+        private Guid _employeeId { get; set; }
+        internal static Employees employeeData { get; set; }
 
         public BenefitsDeductCalc(PaylocityContext context, INameBasedDiscount nameBasedDiscount)
         {
             _context = context;
             _nameBasedDiscount = nameBasedDiscount;
+
         }
+
+        //TODO: Need to change PaycheckType in database instead of converting here
+        private decimal PayCheckPerAnnum =>
+            Convert.ToDecimal(
+                _context.PaycheckTypes
+                    .Where(pct => 
+                        pct.PaycheckTypeId == employeeData.Salaries.First().PaycheckTypeId).First().PaycheckType
+            );                    
 
         public void Initialize(Guid employeeId)
         {
             _employeeId = employeeId;
-            employeesList = _context.Employees
+            employeeData = _context.Employees
                                 .Where(x => x.EmployeeId == _employeeId)
                                 .Include(x => x.Dependents)
                                 .Include(x => x.Salaries).FirstOrDefault();
-
-            //TODO: Need to change PaycheckType in database instead of converting here 
-            payCheckPerAnnum = Convert.ToDecimal(
-                                _context.PaycheckTypes
-                                    .Where(pct => pct.PaycheckTypeId == employeesList.Salaries.First().PaycheckTypeId).First().PaycheckType
-                                ); ;
-
-            CreatePersonsList();
         }
 
-        public static List<Persons> CreatePersonsList()
-        {
-            personsList = new List<Persons>();
-            personsList
-                .Add(
-                new Persons()
-                {
-                    FirstName = employeesList.FirstName,
-                    IsEmployee = Constants.IsEmployee
-                });
-
-            foreach (var dependent in employeesList.Dependents)
-            {
-                personsList
-                    .Add(
-                    new Persons()
-                    {
-                        FirstName = dependent.FirstName,
-                        IsEmployee = !Constants.IsEmployee
-                    });
-            }
-
-            return personsList;
-        }
+        public decimal EmployeeSalary =>
+            Convert.ToDecimal(employeeData.Salaries.First().Salary);
 
         public decimal BenefitsDeductPerPaycheckCalc(bool isEmployee)
         {
-            return BenefitsDeductPerYearCalc(isEmployee) / payCheckPerAnnum;
+            return BenefitsDeductPerYearCalc(isEmployee) / PayCheckPerAnnum;
         }
 
         public decimal BenefitsDeductPerYearCalc(bool isEmployee)
         {
             return 
                 isEmployee 
-                ? EmployeeBenefitsDeductPerYear(isEmployee) 
-                : DependentsBenefitsDeductPerYear(isEmployee);
+                ? EmployeeBenefitsDeductPerYear() 
+                : DependentsBenefitsDeductPerYear();
         }
 
-        public decimal EmployeeBenefitsDeductPerYear(bool isEmployee) =>       
-            Constants.EMPLOYEE_BENEFITS_PER_YEAR * (1 - _nameBasedDiscount.Discount(GetFirstName(isEmployee)));
+        public decimal EmployeeBenefitsDeductPerYear() =>       
+            Constants.EMPLOYEE_BENEFITS_PER_YEAR * (1 - _nameBasedDiscount.Discount(employeeData.FirstName));
 
-        public decimal DependentsBenefitsDeductPerYear(bool isEmployee) =>
-            personsList
-                .Where(y => y.IsEmployee == isEmployee)
-                .Sum(x => Constants.DEPENDENT_BENEFITS_PER_YEAR * (1 - _nameBasedDiscount.Discount(GetFirstName(isEmployee))));
-
-        public string GetFirstName(bool isEmployee)
-        {
-            return personsList.First(x => x.IsEmployee == isEmployee).FirstName;
-        }
-
-        public decimal CalculatedDedecutedSalay()
-        {
-            return Convert.ToDecimal(employeesList.Salaries.First().Salary);
-        }
+        public decimal DependentsBenefitsDeductPerYear() =>
+            employeeData.Dependents.Any()
+                ? employeeData.Dependents.Sum(d => Constants.DEPENDENT_BENEFITS_PER_YEAR * (1 - _nameBasedDiscount.Discount(d.FirstName)))
+                : 0;
     }
 }

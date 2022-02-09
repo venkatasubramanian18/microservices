@@ -32,13 +32,13 @@ export class ShowBenefitReportComponent implements OnInit {
   refreshCalcReportList() {
     console.log("this.emp.EmployeeId : " + this.emp.EmployeeId);
     this.service.calcDeductibles(this.emp.EmployeeId).subscribe(data => {
-      this.employeeBenefitsDeductedPerPayCheck = data["employeeBenefitsDeductedPerPayCheck"];
-      this.employeeBenefitsDeductedPerYear = data["employeeBenefitsDeductedPerYear"];
-      this.dependentsBenefitsDeductedPerPayCheck = data["dependentsBenefitsDeductedPerPayCheck"];
-      this.dependentsBenefitsDeductedPerYear = data["dependentsBenefitsDeductedPerYear"];
-      this.totalBenefitsDeductedPerPayCheck = data["totalBenefitsDeductedPerPayCheck"];
-      this.totalBenefitsDeductedPerPayYear = data["totalBenefitsDeductedPerPayYear"];
-      this.totalSalaryAfterDeducted = data["totalSalaryAfterDeducted"];
+      this.employeeBenefitsDeductedPerPayCheck = data["EmployeeBenefitsDeductedPerPayCheck"];
+      this.employeeBenefitsDeductedPerYear = data["EmployeeBenefitsDeductedPerYear"];
+      this.dependentsBenefitsDeductedPerPayCheck = data["DependentsBenefitsDeductedPerPayCheck"];
+      this.dependentsBenefitsDeductedPerYear = data["DependentsBenefitsDeductedPerYear"];
+      this.totalBenefitsDeductedPerPayCheck = data["TotalBenefitsDeductedPerPayCheck"];
+      this.totalBenefitsDeductedPerPayYear = data["TotalBenefitsDeductedPerPayYear"];
+      this.totalSalaryAfterDeducted = data["TotalSalaryAfterDeducted"];
     });
   }
 

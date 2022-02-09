@@ -36,7 +36,11 @@ namespace PE.BusinessAPIService
         {
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddJsonOptions(options => {
+                options.JsonSerializerOptions.PropertyNamingPolicy = null;
+                options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+
+            });
 
             services.AddSwaggerGen(options =>
             {
@@ -69,9 +73,9 @@ namespace PE.BusinessAPIService
                 {
                     options.UseSqlServer(configuration.GetConnectionString("PaylocitySqlConn"));
                 });
-            services.AddScoped<IBenefitsDeductionCalcRepository, BenefitsDeductionCalcRepository>();
+            services.AddTransient<IBenefitsDeductionCalcRepository, BenefitsDeductionCalcRepository>();
             services.AddTransient<IBenefitsDeductCalc, BenefitsDeductCalc>();
-            services.AddScoped<INameBasedDiscount, NameBasedDiscount>();
+            services.AddTransient<INameBasedDiscount, NameBasedDiscount>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
