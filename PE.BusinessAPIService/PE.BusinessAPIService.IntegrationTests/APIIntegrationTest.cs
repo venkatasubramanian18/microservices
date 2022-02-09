@@ -22,7 +22,7 @@ namespace PE.BusinessAPIService.IntegrationTests
 
             using (var client = new TestClientProvider().Client)
             {
-                var employeeid = Guid.Parse("DD177F4E-0D45-4F1A-9256-2EFAAB10D3E6");
+                var employeeid = Guid.Parse("9d6a3895-8c3e-4af0-ada2-ef6c1fb07449");
                 var response = await client.GetAsync("/api/DeductionCalc/" + employeeid);
 
                 response.EnsureSuccessStatusCode();
