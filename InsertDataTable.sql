@@ -128,12 +128,14 @@ INSERT INTO [dbo].[Salaries]
            ,[Salary]
 		   ,[CreatedDate]
 		   ,[ModifiedDate]
+		   ,[PaycheckTypeId]
 		   )
      VALUES
            (CONVERT(uniqueidentifier, NEWID())
-           ,CONVERT(uniqueidentifier, 'B85F46EE-3683-EC11-9832-2C6DC102E08F')
-           ,123
+           ,CONVERT(uniqueidentifier, 'A0A0433E-F36B-1410-87A6-006D91ECAE9F')
+           ,12345
 		   ,'0001-01-01 00:00:00.0000000'
 		   ,'0001-01-01 00:00:00.0000000'
+		   ,CONVERT(uniqueidentifier, 'EEC7661A-8C48-49FF-9C9D-E6A52827646A')
 		   )
 GO
