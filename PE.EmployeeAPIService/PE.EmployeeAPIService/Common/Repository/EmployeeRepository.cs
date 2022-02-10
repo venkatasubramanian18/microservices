@@ -28,6 +28,10 @@ namespace PE.EmployeeAPIService.Common
             return await _context.PaycheckTypes.ToListAsync();
         }
 
+        /// <summary>
+        /// Retrieves all the employess data with a custom output which we would need it for display.
+        /// </summary>
+        /// <returns>Returns a custom class object</returns>
         public async Task<IList> RetrieveEmployeeOnlyData()
         {
 
@@ -49,11 +53,21 @@ namespace PE.EmployeeAPIService.Common
 
         }
 
+        /// <summary>
+        /// Retrieves Employee data only for the specified employee Id
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         public async Task<Employees> RetrieveEmployeeById(Guid employeeId)
         {
             return await _context.Employees.Where(emp => emp.EmployeeId == employeeId).FirstOrDefaultAsync();
         }
 
+        /// <summary>
+        /// Used to save the employee data and also includes other foreignkey reference tables to be saved as well
+        /// </summary>
+        /// <param name="updateEmployees"></param>
+        /// <returns></returns>
         public async Task<Employees> SaveEmployee(UpdateEmployees updateEmployees)
         {
             Employees employees = null;
@@ -73,6 +87,7 @@ namespace PE.EmployeeAPIService.Common
 
                     _context.Employees.Add(employees);
 
+                    //Using ConfigureAwait(false) as a defensive measure against deadlock
                     await _context.SaveChangesAsync().ConfigureAwait(false);
 
                     var paycheckID = _context.PaycheckTypes.Where(x => x.PaycheckType == updateEmployees.PaycheckType).Select(y => y.PaycheckTypeId).FirstOrDefault();
@@ -97,6 +112,12 @@ namespace PE.EmployeeAPIService.Common
             }
         }
 
+        /// <summary>
+        /// Updates the Employee DB and Salary DB based on the EmployeeId and body
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updateEmployees"></param>
+        /// <returns></returns>
         public async Task UpdateEmployee(Guid id, UpdateEmployees updateEmployees)
         {
             Employees employees = new Employees()
@@ -120,9 +141,16 @@ namespace PE.EmployeeAPIService.Common
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Deletes the employee data and also its related tables
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
         public async Task<Employees> DeleteEmployee(Guid employeeId)
         {
             dynamic employees = null;
+
+            //Using this incase of any failures we can rollback to uncommitted version as we use multiple DB
             using (var context = _context.Database.BeginTransaction())
             {
                 try

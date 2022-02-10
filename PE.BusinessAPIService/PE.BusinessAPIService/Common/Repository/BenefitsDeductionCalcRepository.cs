@@ -14,6 +14,11 @@ namespace PE.BusinessAPIService.Common.Repository
             _benefitsDeductCalc = benefitsDeductCalc;
         }
 
+        /// <summary>
+        /// The calculation for the benefits deduction and total salary
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns>Returns a object with all the calculated values for UI report display</returns>
         public BenefitsDeductionResults ReturnBenefitsDeductionCalc(Guid employeeId)
         {
             _benefitsDeductCalc.Initialize(employeeId);

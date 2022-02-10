@@ -25,7 +25,7 @@ namespace PE.APIGateway
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //Enable CORS
+            //Enable CORS for cross origin 
             services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod()
@@ -34,16 +34,20 @@ namespace PE.APIGateway
 
             services.AddControllers();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer("Bearer", options =>
-            {
-                options.Authority = Configuration.GetSection("Authorization:Authority").Value;
-                options.Audience = Configuration.GetSection("Authorization:Audience").Value;
-            });
+            //Authentication is done through AuthO which is based on JWT Beaer token
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = Configuration.GetSection("Authorization:Authority").Value;
+                    options.Audience = Configuration.GetSection("Authorization:Audience").Value;
+                });
 
+            //Using Ocelot for gateway for easy demo purpose. 
             services.AddOcelot(Configuration);
         }
 
@@ -71,6 +75,7 @@ namespace PE.APIGateway
                 endpoints.MapControllers();
             });
 
+            //Todo: need to work on custom middleware filters to handle the error when the authentication/authorization fails
             //var config = new OcelotPipelineConfiguration()
             //{
             //    PreAuthenticationMiddleware = async (ctx, next) => 

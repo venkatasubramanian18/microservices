@@ -45,17 +45,20 @@ namespace PE.EmployeeAPIService
 
             var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
-            //JSON Serializer
-            services.AddControllersWithViews()
+            //Fixed error: ReferenceLoopHandling - to ignore objects in reference loops and not serialize them. 
+            //Added AddJsonOptions - to fix the pascal issue for object names
+            services
+                .AddControllers(
+                options => options.Filters.Add(typeof(ExceptionLogFilter)))
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
                 .Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
-                = new DefaultContractResolver());
-
-            services.AddControllers(
-                options => options.Filters.Add(typeof(ExceptionLogFilter))
-                );
+                = new DefaultContractResolver())
+                .AddJsonOptions(jsonOptions =>
+                {
+                    jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
+                }); 
 
             services.AddSwaggerGen(options =>
             {
@@ -76,6 +79,8 @@ namespace PE.EmployeeAPIService
                 options =>
                 {
                     options.UseSqlServer(configuration.GetConnectionString("PaylocitySqlConn"));
+                    //To disable AutoDetectChanges on Entity Framework Core. We can enable this in places we need. To improve performance
+                    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 }, ServiceLifetime.Transient);                   
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();

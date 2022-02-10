@@ -69,7 +69,7 @@ namespace PE.EmployeeAPIService.IntegrationTests
             using (var client = new TestClientProvider().Client)
             {
                 var employeeid = new Guid();
-                var jsonString = "{\"employeeId\":\"B85F46EE-3683-EC11-9832-2C6DC102E08F\",\"firstName\":\"oi\",\"lastName\":\"yuyu\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\",\"dependents\":[],\"Salary\":99999,\"PaycheckType\":\"104\"}";
+                var jsonString = "{\"employeeId\":\"B85F46EE-3683-EC11-9832-2C6DC102E08F\",\"firstName\":\"EmployeeInt\",\"lastName\":\"EmployeeInt\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\",\"dependents\":[],\"Salary\":99999,\"PaycheckType\":\"104\"}";
                 var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
                 var response = await client.PutAsync("/api/employees/" + employeeid, httpContent);
@@ -88,7 +88,7 @@ namespace PE.EmployeeAPIService.IntegrationTests
             using (var client = new TestClientProvider().Client)
             {
                 var employeeid = Guid.Parse("9D6A3895-8C3E-4AF0-ADA2-EF6C1FB07449");
-                var jsonString = "{\"employeeId\":\"9D6A3895-8C3E-4AF0-ADA2-EF6C1FB07449\",\"firstName\":\"oi\",\"lastName\":\"yuyu\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\",\"dependents\":[],\"Salary\":99999,\"PaycheckType\":\"104\"}";
+                var jsonString = "{\"employeeId\":\"9D6A3895-8C3E-4AF0-ADA2-EF6C1FB07449\",\"firstName\":\"EmployeeInt\",\"lastName\":\"EmployeeInt\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\",\"dependents\":[],\"Salary\":99999,\"PaycheckType\":\"104\"}";
                 var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
                 var response = await client.PutAsync("/api/employees/" + employeeid, httpContent);

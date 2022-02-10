@@ -65,7 +65,7 @@ namespace PE.DependentAPIService.IntegrationTests
             using (var client = new TestClientProvider().Client)
             {
                 var employeeid = new Guid();
-                var jsonString = "{\"dependentId\":\"C1080C11-9389-EC11-983A-2C6DC102E08F\",\"employeeId\":\"9d6a3895-8c3e-4af0-ada2-ef6c1fb07449\",\"firstName\":\"Manju\",\"lastName\":\"preethi\",\"dependentTypeId\":\"763B3285-B81B-4C0C-818C-E2B326205A3E\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\",\"dependentType\":null,\"employee\":null}";
+                var jsonString = "{\"dependentId\":\"C1080C11-9389-EC11-983A-2C6DC102E08F\",\"employeeId\":\"9d6a3895-8c3e-4af0-ada2-ef6c1fb07449\",\"firstName\":\"Dependent1\",\"lastName\":\"DependentUpdated\",\"dependentTypeId\":\"763B3285-B81B-4C0C-818C-E2B326205A3E\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\",\"dependentType\":null,\"employee\":null}";
                 var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
                 var response = await client.PutAsync("/api/dependents/" + employeeid, httpContent);
@@ -83,7 +83,7 @@ namespace PE.DependentAPIService.IntegrationTests
             using (var client = new TestClientProvider().Client)
             {
                 var dependentid = Guid.Parse("C1080C11-9389-EC11-983A-2C6DC102E08F");
-                var jsonString = "{\"dependentId\":\"C1080C11-9389-EC11-983A-2C6DC102E08F\",\"employeeId\":\"9D6A3895-8C3E-4AF0-ADA2-EF6C1FB07449\",\"firstName\":\"Manju\",\"lastName\":\"Preethi\",\"dependentTypeId\":\"A0A14B48-62A6-4998-924C-4D6D1168254D\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\"}";
+                var jsonString = "{\"dependentId\":\"C1080C11-9389-EC11-983A-2C6DC102E08F\",\"employeeId\":\"9D6A3895-8C3E-4AF0-ADA2-EF6C1FB07449\",\"firstName\":\"Dependent1\",\"lastName\":\"DependentUpdated\",\"dependentTypeId\":\"A0A14B48-62A6-4998-924C-4D6D1168254D\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\"}";
                 var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
                 var response = await client.PutAsync("/api/dependents/" + dependentid, httpContent);
@@ -101,7 +101,7 @@ namespace PE.DependentAPIService.IntegrationTests
 
             using (var client = new TestClientProvider().Client)
             {
-                var jsonString = "{\"dependentId\":\"00000000-0000-0000-0000-000000000000\",\"employeeId\":\"9D6A3895-8C3E-4AF0-ADA2-EF6C1FB07449\",\"firstName\":\"Manju\",\"lastName\":\"preethi\",\"dependentTypeId\":\"47A61BEA-2F05-4C2D-BFF9-CCD1ECB3D3BC\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\",\"dependentType\":null,\"employee\":null}";
+                var jsonString = "{\"dependentId\":\"00000000-0000-0000-0000-000000000000\",\"employeeId\":\"9D6A3895-8C3E-4AF0-ADA2-EF6C1FB07449\",\"firstName\":\"DependentIntSave\",\"lastName\":\"DependentIntSave\",\"dependentTypeId\":\"47A61BEA-2F05-4C2D-BFF9-CCD1ECB3D3BC\",\"createdDate\":\"0001-01-01T00:00:00\",\"modifiedDate\":\"0001-01-01T00:00:00\",\"dependentType\":null,\"employee\":null}";
                 var httpContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync("/api/dependents/", httpContent);

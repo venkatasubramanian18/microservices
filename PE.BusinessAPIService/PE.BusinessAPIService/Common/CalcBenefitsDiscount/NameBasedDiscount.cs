@@ -8,6 +8,7 @@ namespace PE.BusinessAPIService.Common.CalcBenefitsDiscount
     /// </summary>
     public class NameBasedDiscount : INameBasedDiscount
     {
+        //using dictionary incase we can add further discounts in future based on names
         private Dictionary<string, decimal> FirstCharDiscountedNameList = new Dictionary<string, decimal>()
         {
             { "a", Constants.NAME_STARTS_WITH_A_DISCOUNT}

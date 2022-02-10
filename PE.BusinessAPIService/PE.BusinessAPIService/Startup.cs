@@ -72,6 +72,7 @@ namespace PE.BusinessAPIService
                 options =>
                 {
                     options.UseSqlServer(configuration.GetConnectionString("PaylocitySqlConn"));
+                    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 });
             services.AddTransient<IBenefitsDeductionCalcRepository, BenefitsDeductionCalcRepository>();
             services.AddTransient<IBenefitsDeductCalc, BenefitsDeductCalc>();

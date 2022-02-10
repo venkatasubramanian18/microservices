@@ -40,18 +40,23 @@ namespace PE.DependentAPIService
                  .AllowAnyHeader());
             });
 
-            //JSON Serializer
-            services.AddControllersWithViews()
+            //Fixed error: ReferenceLoopHandling - to ignore objects in reference loops and not serialize them. 
+            //Added AddJsonOptions - to fix the pascal issue for object names
+            services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
                 .Json.ReferenceLoopHandling.Ignore)
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
-                = new DefaultContractResolver());
+                = new DefaultContractResolver())
+                .AddJsonOptions(jsonOptions =>
+                {
+                    jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
+                });
 
-            services.AddControllers();
             services.AddDbContext<PaylocityContext>(
                 options =>
                 {
+                   //EnableRetryOnFailure option enables recover SQL connections like due to deadlocks or so, and we can configure exactly how it works(max retries, the delay between retries, etc)
                     options.UseSqlServer(configuration.GetConnectionString("PaylocitySqlConn"), sqlOptions =>
                     {
                         sqlOptions.EnableRetryOnFailure(
@@ -59,6 +64,8 @@ namespace PE.DependentAPIService
                             maxRetryDelay: TimeSpan.FromSeconds(5),
                             errorNumbersToAdd: null);
                     });
+                    //To disable AutoDetectChanges on Entity Framework Core. We can enable this in places we need. To improve performance
+                    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
                 }, ServiceLifetime.Transient);
 
             services.AddSwaggerGen(options =>

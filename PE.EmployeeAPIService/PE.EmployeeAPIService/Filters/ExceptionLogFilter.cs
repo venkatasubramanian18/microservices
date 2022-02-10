@@ -15,14 +15,14 @@ namespace PE.EmployeeAPIService.Filters
         //    _logger = logger;
         //}
         /// <summary>
-        /// Exception gets thrown when there is an error in application
+        /// Exception gets thrown when there is an unhhandled run time errors in application
         /// </summary>
         /// <param name="context"></param>
         public void OnException(ExceptionContext context)
         {
             var errorMsg = context.Exception.Message;
             
-            //Todo: Problem with my system access to write to command line
+            //Todo: Problem with my system access to write to system events
             //_logger.LogError(errorMsg);
             context.Result = new ObjectResult(
                 new Error()

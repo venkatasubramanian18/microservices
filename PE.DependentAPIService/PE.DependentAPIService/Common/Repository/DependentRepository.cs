@@ -18,6 +18,10 @@ namespace PE.DependentAPIService.Common.Repository
             _context = context;
         }
 
+        /// <summary>
+        /// Retrieve All Dependents data 
+        /// </summary>
+        /// <returns>Retruns all the dependents</returns>
         public async Task<IList<Dependents>> RetrieveDependentsData()
         {
             var queryDependents = await _context.Dependents
@@ -27,6 +31,11 @@ namespace PE.DependentAPIService.Common.Repository
             return queryDependents;
         }
 
+        /// <summary>
+        /// Based on the employee Id the counts are measured
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<int> RetrieveDependentCountById(Guid id)
         {
             var dependents = await _context.Dependents.Where(x => x.EmployeeId == id).ToListAsync();
@@ -34,11 +43,21 @@ namespace PE.DependentAPIService.Common.Repository
             return dependents.Count;
         }
 
+        /// <summary>
+        /// Dependent types list retrieved from the DB.
+        /// Stored in the DB so later we don't want to touch the code
+        /// </summary>
+        /// <returns></returns>
         public async Task<IList<DependentTypes>> RetrieveDependentTypes()
         {
             return await _context.DependentTypes.ToListAsync();
         }
 
+        /// <summary>
+        /// Saves the dependents data into the dependents table
+        /// </summary>
+        /// <param name="dependents"></param>
+        /// <returns></returns>
         public async Task<Dependents> SaveDependents(Dependents dependents)
         {
             dependents.CreatedDate = DateTime.Now;
@@ -51,6 +70,12 @@ namespace PE.DependentAPIService.Common.Repository
             return dependents;
         }
 
+        /// <summary>
+        /// Updates dependents based on the DependentId and changes for the columns passed
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="dependents"></param>
+        /// <returns></returns>
         public async Task UpdatetDependent(Guid id, Dependents dependents)
         {
             _context.Entry(dependents).State = (Microsoft.EntityFrameworkCore.EntityState)EntityState.Modified;
@@ -60,6 +85,12 @@ namespace PE.DependentAPIService.Common.Repository
             await _context.SaveChangesAsync().ConfigureAwait(false);
 
         }
+
+        /// <summary>
+        /// Deletes the records from the table based on the Dependent Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Dependents> DeleteDependent(Guid id)
         {
             dynamic dependents = null;
@@ -81,6 +112,11 @@ namespace PE.DependentAPIService.Common.Repository
             return dependents;
         }
 
+        /// <summary>
+        /// Checks if the dependent Exists in the DB
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool DependentExists(Guid id)
         {
             return _context.Dependents.Any(e => e.DependentId == id);
