@@ -10,7 +10,4 @@ describe('SharedService', () => {
     service = TestBed.inject(SharedService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
 });
